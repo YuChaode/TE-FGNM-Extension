@@ -1,0 +1,81 @@
+module: ietf-te-fgnm-ext
+augment /te:te/te:tunnels/te:tunnel:
+   +--rw alias?                   string
+   +--ro create-time?             yang:date-and-time
+   +--ro active-time?             yang:date-and-time
+   +--rw source-endpoints
+   |  +--rw source-endpoint*
+   |     +--rw node-id?           leafref
+   |     +--rw (endpoint-tp)?
+   |     |  +--:(ltp)
+   |     |  |  +--rw tp-id?             leafref
+   |     |  +--:(ttp)
+   |     |     +--rw (id-or-name)?
+   |     |        +--:(id)
+   |     |        |  +--rw ttp-id?            leafref
+   |     |        +--:(name)
+   |     |           +--rw ttp-name?          leafref
+   |     +--rw protection-role?   enumeration
+   +--rw destination-endpoints
+      +--rw destination-endpoint*
+         +--rw node-id?           leafref
+         +--rw (endpoint-tp)?
+         |  +--:(ltp)
+         |  |  +--rw tp-id?             leafref
+         |  +--:(ttp)
+         |     +--rw (id-or-name)?
+         |        +--:(id)
+         |        |  +--rw ttp-id?            leafref
+         |        +--:(name)
+         |           +--rw ttp-name?          leafref
+         +--rw protection-role?   enumeration
+augment /te:te/te:tunnels/te:tunnel/te:restoration:
+   +--rw restoration-lock?             boolean
+   +--rw restoration-reversion-lock?   boolean
+   +--rw scheduled-reversion-time?     yang:date-and-time
+   +--rw restoration-priority?         enumeration
+   +--rw restoration-layer?            enumeration
+augment /te:te/te:tunnels/te:tunnel/te:primary-paths/te:primary-path
+        /te:explicit-route-objects-always
+        /te:route-object-include-exclude/te:type:
+   +--:(ttp-hop)
+      +--rw ttp-hop
+         +--rw node-id?    nw:node-id
+         +--rw (id-or-name)?
+            +--:(id)
+            |  +--rw ttp-id?     binary
+            +--:(name)
+               +--rw ttp-name?   string
+augment /te:te/te:tunnels/te:tunnel/te:secondary-paths
+        /te:secondary-path/te:explicit-route-objects-always
+        /te:route-object-include-exclude/te:type:
+   +--:(ttp-hop)
+      +--rw ttp-hop
+         +--rw node-id?    nw:node-id
+         +--rw (id-or-name)?
+            +--:(id)
+            |  +--rw ttp-id?     binary
+            +--:(name)
+               +--rw ttp-name?   string
+augment /te:te/te:tunnels/te:tunnel/te:primary-paths/te:primary-path
+        /te:primary-reverse-path/te:explicit-route-objects-always
+        /te:route-object-include-exclude/te:type:
+   +--:(ttp-hop)
+      +--rw ttp-hop
+         +--rw node-id?    nw:node-id
+         +--rw (id-or-name)?
+            +--:(id)
+            |  +--rw ttp-id?     binary
+            +--:(name)
+               +--rw ttp-name?   string
+augment /te:te/te:tunnels/te:tunnel/te:secondary-reverse-paths
+        /te:secondary-reverse-path/te:explicit-route-objects-always
+        /te:route-object-include-exclude/te:type:
+   +--:(ttp-hop)
+      +--rw ttp-hop
+         +--rw node-id?    nw:node-id
+         +--rw (id-or-name)?
+            +--:(id)
+            |  +--rw ttp-id?     binary
+            +--:(name)
+               +--rw ttp-name?   string
